@@ -6,14 +6,23 @@
 from PIL import Image
 from random import *
 import os
+from basefour import BaseFour   #basefour.py
 
 def main():
-    #Get filename to open - testing purposes
-    fname = raw_input("fname=")
+
+    #Test base four object
+    test = BaseFour(40)
+    print test.toDecimal()
+    
+    #Get filename to open - sample.jpg hardcoded for testing purposes
+    
+    #fname = raw_input("fname=")
+    fname = 'sample.jpg' 
+    
     encrypt(fname)
 
 def encrypt(fname):
-
+    
     #Open and load image file
     im = Image.open(fname)
     pix = im.load()
@@ -44,7 +53,7 @@ def encrypt(fname):
             rgb = pix[x,y]                          #Get array of RGB values - rgb[0] = red, etc
             avg = (rgb[0] + rgb[1] + rgb[2]) / 3    #If we wanted to convert to greyscale
             
-            #Pick random pixel to swap
+            #Pick random pixel to swap - This is where we implement the encryption algorithm
             x1 = randint(0, imgwidth-1)
             y1 = randint(0, imgheight-1)
             
@@ -52,12 +61,13 @@ def encrypt(fname):
             pix[x,y] = pix[x1,y1]
             pix[x1,y1] = rgb
 
-    im.show()   #Open produced image in default program (Windows Photo Viewer, Preview, etc)
+    #im.show()   #Open produced image in default program (Windows Photo Viewer, Preview, etc)
     
     #Save generated image to directory ./output/<filename>.jpg
     outputFolder = 'output/'
     if not os.path.exists(outputFolder):    #Create ./output/ directory if it doesn't exist already
         os.makedirs(outputFolder)
     im.save(outputFolder + fname)   #Save to file
-    print "Done."
+    print "Saved to " + outputFolder + fname
+    
 main()
