@@ -3,11 +3,12 @@
 #https://github.com/erikm6872/QuaternaryImageEncryption
 
 import math
+import random
 
 class BaseFour(object):
     def __init__(self, dec):
         self.baseFourVals = fromDecimal(dec)   #Array containing base 4 value
-        print self.baseFourVals #Print entire array (testing)
+        #print self.baseFourVals #Print entire array (testing)
 
     #Convert base 4 value back to base 10 (class)
     def toDecimal(self):
@@ -32,3 +33,4 @@ def toDecimal(arr):
         retDec = retDec + (arr[i] * math.pow(4, len(arr) - i - 1))
     return int(retDec)
     
+

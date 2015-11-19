@@ -8,15 +8,15 @@ from random import *
 import os
 import quaternary   #quaternary.py
 from quaternary import BaseFour
-
+import rsa
 def main():
 
     #Test base four object
     test = BaseFour(165)
-    print test.toDecimal()
+    #print test.toDecimal()
     
     test2 = quaternary.fromDecimal(23)
-    print test2
+    #print test2
     
     #Get filename to open - sample.jpg hardcoded for testing purposes
     
@@ -26,6 +26,11 @@ def main():
     encrypt(fname)
 
 def encrypt(fname):
+    rsaKey = rsa.RSA()
+    e,d = rsaKey.getKeys()
+    print 'e=' + str(e)
+    print 'd=' + str(d)
+    
     
     #Open and load image file
     im = Image.open(fname)
