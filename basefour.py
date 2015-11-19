@@ -6,29 +6,16 @@ import math
 
 class BaseFour(object):
     def __init__(self, dec):
-        self.baseFourVals = []
-        while dec > 3:
-            elem = self.divFour(dec)
-            dec = elem[0]
-            self.baseFourVals.append(elem[1])
-        self.baseFourVals.append(dec)
-        self.reverseArray()
-        print self.baseFourVals
-        
+        self.baseFourVals = []  #Array containing base 4 value
+        while dec > 3:  #dec := result
+            self.baseFourVals.insert(0,dec%4)   #Insert remainder into array
+            dec = dec / 4                       #Update dec
+        self.baseFourVals.insert(0,dec) #Insert last value
+        print self.baseFourVals #Print entire array (testing)
+    
+    #Convert base 4 value back to base 10
     def toDecimal(self):
         retDec = 0
         for i in range(len(self.baseFourVals)):
             retDec = retDec + (self.baseFourVals[i] * math.pow(4, len(self.baseFourVals) - i - 1))
         return int(retDec)
-    
-    def divFour(self, inVal):
-        retArr = []
-        retArr.append(inVal / 4)
-        retArr.append(inVal % 4)
-        return retArr
-    def reverseArray(self):
-        #print len(self.baseFourVals)
-        for i in range(len(self.baseFourVals)/2):
-            temp = self.baseFourVals[i]
-            self.baseFourVals[i] = self.baseFourVals[len(self.baseFourVals) - i - 1]
-            self.baseFourVals[len(self.baseFourVals) - i - 1] = temp

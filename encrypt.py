@@ -11,7 +11,7 @@ from basefour import BaseFour   #basefour.py
 def main():
 
     #Test base four object
-    test = BaseFour(40)
+    test = BaseFour(165)
     print test.toDecimal()
     
     #Get filename to open - sample.jpg hardcoded for testing purposes
