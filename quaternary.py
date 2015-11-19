@@ -16,6 +16,11 @@ class BaseFour(object):
         for i in range(len(self.baseFourVals)):
             retDec = retDec + (self.baseFourVals[i] * math.pow(4, len(self.baseFourVals) - i - 1))
         return int(retDec)
+        
+    def getVals(self):
+        return self.baseFourVals
+    def setVals(self, inArr):
+        self.baseFourVals = inArr
 
 #Convert from decimal to base 4
 def fromDecimal(dec):
