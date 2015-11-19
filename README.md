@@ -7,3 +7,5 @@ Python implementation of http://ijns.jalaxy.com.tw/contents/ijns-v17-n3/ijns-201
 **Requires [Python 2.7](https://www.python.org/downloads/) and [Python Imaging Library (PIL)](http://www.pythonware.com/products/pil/)**
 * `pip install --allow-external pil`
 
+## Image
+sample.jpg by Rijksdienst voor het Cultureel Erfgoed [CC BY-SA 3.0 nl](http://creativecommons.org/licenses/by-sa/3.0/nl/deed.en), via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Overzicht_van_de_voorkant_-_Tungelroy_-_20421367_-_RCE.jpg)
