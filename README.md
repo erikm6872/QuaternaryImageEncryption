@@ -4,6 +4,6 @@ Python implementation of http://ijns.jalaxy.com.tw/contents/ijns-v17-n3/ijns-201
 
 ## Dependencies
 
-**Requires Python 2.7 and Python Imaging Library (PIL)**
+**Requires [Python 2.7](https://www.python.org/downloads/) and [Python Imaging Library (PIL)](http://www.pythonware.com/products/pil/)**
 * `pip install --allow-external pil`
 
