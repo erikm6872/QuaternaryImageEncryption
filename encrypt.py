@@ -9,21 +9,6 @@ import os
 import quaternary   #quaternary.py
 from quaternary import BaseFour
 import rsa
-def main():
-
-    #Test base four object
-    test = BaseFour(165)
-    #print test.toDecimal()
-    
-    test2 = quaternary.fromDecimal(23)
-    #print test2
-    
-    #Get filename to open - sample.jpg hardcoded for testing purposes
-    
-    #fname = raw_input("fname=")
-    fname = 'sample.jpg' 
-    
-    encrypt(fname)
 
 def encrypt(fname):
     rsaKey = rsa.RSA()
@@ -88,5 +73,4 @@ def encrypt(fname):
         os.makedirs(outputFolder)
     im.save(outputFolder + fname)   #Save to file
     print "Saved to " + outputFolder + fname
-    
-main()
+    return outputFolder+fname
