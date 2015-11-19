@@ -6,13 +6,17 @@
 from PIL import Image
 from random import *
 import os
-from basefour import BaseFour   #basefour.py
+import quaternary   #quaternary.py
+from quaternary import BaseFour
 
 def main():
 
     #Test base four object
     test = BaseFour(165)
     print test.toDecimal()
+    
+    test2 = quaternary.fromDecimal(23)
+    print test2
     
     #Get filename to open - sample.jpg hardcoded for testing purposes
     
