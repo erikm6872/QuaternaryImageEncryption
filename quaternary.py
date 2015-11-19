@@ -14,7 +14,7 @@ class BaseFour(object):
     def toDecimal(self):
         retDec = 0
         for i in range(len(self.baseFourVals)):
-            retDec = retDec + (self.baseFourVals[i] * math.pow(4, len(self.baseFourVals) - i - 1))
+            retDec = retDec + (self.baseFourVals[i] * pow(4, len(self.baseFourVals) - i - 1))
         return int(retDec)
         
     def getVals(self):
@@ -35,7 +35,7 @@ def fromDecimal(dec):
 def toDecimal(arr):
     retDec = 0
     for i in range(len(arr)):
-        retDec = retDec + (arr[i] * math.pow(4, len(arr) - i - 1))
+        retDec = retDec + (arr[i] * pow(4, len(arr) - i - 1))
     return int(retDec)
     
 

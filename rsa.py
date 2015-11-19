@@ -24,19 +24,20 @@ class RSA(object):
     
     #This is the method that doesn't work. It always returns the same values as the input
     def encryptBaseFour(self, arr):
-        for i in arr:
+        dec = quaternary.toDecimal(arr)
+        c = pow(dec, self.e) % 255
+        retArr = quaternary.fromDecimal(c)
+        return retArr
+        #for i in arr:
             #eVal = 0
-            for j in range(i):
+            #for j in range(i):
                 #eVal = eVal + j
-                j = math.pow(j, self.e) % 4 #This always returns the same value
+                #j = pow(j, self.e) % 4 #This always returns the same value
             #i = quaternary.fromDecimal(eVal)   #Same with this
-        return arr
+        #return arr
 
 def generatePrimes():
 
-    #p and q must be pretty small for python's math functions to work
-    #still looking for a workaround
-    
     primes = [3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97]
                    #,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,179
                    #,181,191,193,197,199,211,223,227,229,233,239,241,251,257,263,269
