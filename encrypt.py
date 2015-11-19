@@ -5,6 +5,11 @@
 #Imports
 from PIL import Image
 from random import *
+import os
+
+def main():
+    fname = raw_input("fname=")
+    encrypt(fname)
 
 def encrypt(fname):
 
@@ -44,3 +49,4 @@ def encrypt(fname):
         os.makedirs(outputFolder)
     im.save(outputFolder + fname)   #Save to file
     print "Done."
+main()
