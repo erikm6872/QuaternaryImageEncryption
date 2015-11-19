@@ -56,9 +56,10 @@ def encrypt(fname):
     #       ...
     #   n)  x_k = 2 <-Scrambled value
     
-    #   What this does right now is just swap random pixels
+    print 'Working...'
     for x in range(0, imgwidth):
         for y in range(0, imgheight):
+           # print "[%d,%d]" % (x,y)
             rgb = pix[x,y]                          #Get array of RGB values - rgb[0] = red, etc
             avg = (rgb[0] + rgb[1] + rgb[2]) / 3    #If we wanted to convert to greyscale
             
