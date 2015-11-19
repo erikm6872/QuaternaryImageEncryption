@@ -56,7 +56,8 @@ def encrypt(fname):
         for y in range(0, imgheight):
             rgb = pix[x,y]                          #Get array of RGB values - rgb[0] = red, etc
             avg = (rgb[0] + rgb[1] + rgb[2]) / 3    #If we wanted to convert to greyscale
-            
+            rgb_basefour = [quaternary.fromDecimal(rgb[0]), quaternary.fromDecimal(rgb[1]), quaternary.fromDecimal(rgb[2])]
+            #print rgb_basefour
             #Pick random pixel to swap - This is where we implement the encryption algorithm
             x1 = randint(0, imgwidth-1)
             y1 = randint(0, imgheight-1)
@@ -64,8 +65,10 @@ def encrypt(fname):
             #Swap pixels
             pix[x,y] = pix[x1,y1]
             pix[x1,y1] = rgb
-
-    #im.show()   #Open produced image in default program (Windows Photo Viewer, Preview, etc)
+            
+    #Open produced image in default program (Windows Photo Viewer, Preview, etc)
+    #Disabled for testing
+    #im.show()   
     
     #Save generated image to directory ./output/<filename>.jpg
     outputFolder = 'output/'
