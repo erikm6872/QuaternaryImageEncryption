@@ -8,6 +8,7 @@ from random import *
 import os
 
 def main():
+    #Get filename to open - testing purposes
     fname = raw_input("fname=")
     encrypt(fname)
 
@@ -26,6 +27,16 @@ def encrypt(fname):
     #   1. Convert RGB values to base 4
     #   2. Encryption in base 4, possibly RSA
     #   3. Convert back to base 10
+    
+    #   Step 2 given
+    #   -------------
+    #   1)  x_0 = 2
+    #   2)  rule: x_k = (5x_(k-1)+1)_base4
+    #       k>1 is given (a param)
+    #   3)  x_1 = (2*2+1) = 5 = 1(base4)
+    #   4)  x_2 = (2*x_1+1) = (2*1+1) = 3(base4)
+    #       ...
+    #   n)  x_k = 2 <-Scrambled value
     
     #   What this does right now is just swap random pixels
     for x in range(0, imgwidth):
