@@ -8,12 +8,11 @@ Python implementation of http://ijns.jalaxy.com.tw/contents/ijns-v17-n3/ijns-201
 * `pip install --allow-external pil`
 
 ## Image
-sample_<XXX>px.jpg by Rijksdienst voor het Cultureel Erfgoed [CC BY-SA 3.0 nl](http://creativecommons.org/licenses/by-sa/3.0/nl/deed.en), via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Overzicht_van_de_voorkant_-_Tungelroy_-_20421367_-_RCE.jpg)
+sample_XXXpx.jpg by Rijksdienst voor het Cultureel Erfgoed [CC BY-SA 3.0 nl](http://creativecommons.org/licenses/by-sa/3.0/nl/deed.en), via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Overzicht_van_de_voorkant_-_Tungelroy_-_20421367_-_RCE.jpg)
 
 ## Usage
 `main.py` can be run with or without a filename passed as an argument. If no arguments are passed, the user is prompted to enter a filename to process.
-* `main.py sample_321px.jpg`
+* `python main.py sample_321px.jpg`
 
 ## TODO
-* Fix encryption method in rsa.py (rsa.RSA.encryptBaseFour() doesn't encrypt pixel values properly)
-* Implement decryption algorithm
+* Fix decryption method in decrypt.py 
