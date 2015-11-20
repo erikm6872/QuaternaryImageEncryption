@@ -61,6 +61,7 @@ def main():
         testRSA(rsaKey, numTestRuns) #Test RSA encryption with `numRuns` random integers in [0,255]
     
     encryptedfname = encrypt(fname,rsaKey)
+    print '**************'
     decryptedfname = decrypt(encryptedfname,rsaKey,imgwidth,imgheight)
     
     

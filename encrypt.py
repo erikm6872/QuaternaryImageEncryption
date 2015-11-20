@@ -40,7 +40,7 @@ def encrypt(fname,rsaKey):
     #A = [[[] for x in range(imgheight)] for x in range(imgwidth)]
     A = [['' for x in range(imgheight)] for x in range(imgwidth)]
     
-    print 'Working...'
+    print 'Encrypting ' + fname + '...'
     for x in range(0, imgwidth):
         if x == imgwidth / 4:
             print '25%'

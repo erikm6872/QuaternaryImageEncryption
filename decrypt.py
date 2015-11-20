@@ -18,6 +18,12 @@ def decrypt(fname,rsaKey,imgwidth,imgheight):
     fPix = fContents.split(",")
     
     for x in range(imgwidth):
+        if x == imgwidth / 4:
+            print '25%'
+        elif x == imgwidth / 2:
+            print '50%'
+        elif x == 3 * (imgwidth / 4):
+            print '75%'
         row = fPix[(x*imgheight)-imgheight:x*imgheight]
         for y in range(len(row)):#imgheight):
             rgb = row[y].split('/')
