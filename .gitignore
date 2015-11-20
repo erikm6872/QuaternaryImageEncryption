@@ -1,2 +1,4 @@
 output/sample.jpg
 *.pyc
+output/sample_160px.jpg
+*.enc

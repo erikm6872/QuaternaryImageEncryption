@@ -1,0 +1,42 @@
+Input: Image file I, RSA public key e, RSA mod value n
+Output: Array of encrypted values A 
+
+ENCRYPT_IMAGE(I,e,n)
+    x <- I.width
+    y <- I.height
+    A <- empty 3D array of size [x][y][3]
+    for i = 0...x
+        for j = 0...y
+        
+            rf, gf, bf <- convert r, g, and b values of I[x][y] to base 4
+            rfi, gfi, bfi <- convert rf, gf, and bf to integer representations
+            
+            r' <- rfi^e % n
+            g' <- gfi^e % n
+            b' <- bfi^e % n
+            
+            A[x][y] = [r',g',b']
+        end for
+    end for
+    return A
+---------------------------------------------------------------------------------
+Input: Array of encrypted values A, RSA private key d, RSA mod value n
+Output: Image file I
+    
+DECRYPT_IMAGE(A,d,n)
+    x <- A.width
+    y <- A.height
+    I <- Empty image file of size (x,y)
+    for i = 0...x
+        for j = 0...y
+            rfi <- A[x][y][0]^d % n
+            gfi <- A[x][y][1]^d % n
+            bfi <- A[x][y][2]^d % n
+            
+            rf, gf, bf <- convert rfi, gfi and bfi to base 4 representations
+            r, g, b <- convert rf, gf, and bf from base 4 to base 10
+            
+            I[x][y] = (r,g,b)
+        end for
+    end for
+    return I

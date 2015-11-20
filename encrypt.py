@@ -10,13 +10,8 @@ import quaternary   #quaternary.py
 from quaternary import BaseFour
 import rsa
 
-def encrypt(fname):
-    rsaKey = rsa.RSA()
-    e,d = rsaKey.getKeys()
-    print 'e=' + str(e)
-    print 'd=' + str(d)
-    
-    
+def encrypt(fname,rsaKey):
+
     #Open and load image file
     im = Image.open(fname)
     pix = im.load()
@@ -41,8 +36,18 @@ def encrypt(fname):
     #       ...
     #   n)  x_k = 2 <-Scrambled value
     
+    
+    #A = [[[] for x in range(imgheight)] for x in range(imgwidth)]
+    A = [['' for x in range(imgheight)] for x in range(imgwidth)]
+    
     print 'Working...'
     for x in range(0, imgwidth):
+        if x == imgwidth / 4:
+            print '25%'
+        elif x == imgwidth / 2:
+            print '50%'
+        elif x == 3 * (imgwidth / 4):
+            print '75%'
         for y in range(0, imgheight):
            # print "[%d,%d]" % (x,y)
             rgb = pix[x,y]                          #Get array of RGB values - rgb[0] = red, etc
@@ -52,25 +57,46 @@ def encrypt(fname):
             g = BaseFour(rgb[1])
             b = BaseFour(rgb[2])
             
-            r.setVals(rsaKey.encryptBaseFour(r.getVals()))
-            g.setVals(rsaKey.encryptBaseFour(g.getVals()))
-            b.setVals(rsaKey.encryptBaseFour(b.getVals()))
+            #r.setVals(rsaKey.encryptBaseFour(r.getVals()))
+            #g.setVals(rsaKey.encryptBaseFour(g.getVals()))
+            #b.setVals(rsaKey.encryptBaseFour(b.getVals()))
             
-            rd = r.toDecimal()
-            gd = g.toDecimal()
-            bd = b.toDecimal()
-            rgb_d = (rd, gd, bd)    #Issue with encryptBaseFour(): rgb_d always is the same as rgb
-
-            pix[x,y] = rgb_d
+            #print "r: Original=%d, RSA=%d" % (r.getIntVal(),0)# rsaKey.encryptBaseTen(r.getIntVal()))
+            #print "g: Original=%d, RSA=%d" % (g.getIntVal(),0)# rsaKey.encryptBaseTen(g.getIntVal()))
+            #print "b: Original=%d, RSA=%d" % (b.getIntVal(),0)# rsaKey.encryptBaseTen(b.getIntVal()))
+            #print ''
+            #rgbEncrypted = [rsaKey.encryptBaseTen(r.getIntVal()), rsaKey.encryptBaseTen(g.getIntVal()), rsaKey.encryptBaseTen(b.getIntVal())]
+            
+            rd = rsaKey.encryptBaseTen(r.getIntVal())
+            gd = rsaKey.encryptBaseTen(g.getIntVal())
+            bd = rsaKey.encryptBaseTen(b.getIntVal())
+            #print rd
+            #print gd
+            #print bd
+            rgb_s = '%d/%d/%d' % (rd, gd, bd)
+            A[x][y] = rgb_s
+            
+            
+            #rgb_d = [rd, gd, bd]
+            #print '[' + str(x) + '][' + str(y) + '] / img[' + str(imgwidth) + '][' + str(imgheight) + '] / A[' + str(len(A)) + '][' + str(len(A[0])) + ']' 
+            #A[x][y] = rgb_d
+            #pix[x,y] = rgb_d
             
     #Open produced image in default program (Windows Photo Viewer, Preview, etc)
     #Disabled for testing
-    im.show()   
-    
+    #im.show()   
+    #print A
     #Save generated image to directory ./output/<filename>.jpg
+    extension = '.enc'
     outputFolder = 'output/'
     if not os.path.exists(outputFolder):    #Create ./output/ directory if it doesn't exist already
         os.makedirs(outputFolder)
-    im.save(outputFolder + fname)   #Save to file
-    print "Saved to " + outputFolder + fname
-    return outputFolder+fname
+    outFile = outputFolder + fname + extension
+    writeToFile(outFile, A)
+    #im.save(outputFolder + fname)   #Save to file
+    print "Saved to " + outputFolder + fname + extension
+    return outputFolder+fname+extension
+    
+def writeToFile(filename, A):
+    outFile = open(filename, "wb")
+    outFile.write(str(A).strip('[]').replace("'", '').replace(' ', '').replace('[', '').replace(']',''))
