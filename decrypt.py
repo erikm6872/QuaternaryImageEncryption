@@ -60,5 +60,5 @@ def decrypt(fname,rsaKey):
     outfname = fNameComp[0]
     exten = fNameComp[1]
     im.show()
-    im.save(outfname + "_OUTPUT" + exten)
+    im.save(outfname + "_OUTPUT." + exten)
     return fname

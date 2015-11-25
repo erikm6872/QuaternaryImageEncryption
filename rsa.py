@@ -45,8 +45,7 @@ def generatePrimes(smallprimes, verysmallprimes):
     
     if smallprimes == True:
         if verysmallprimes == True:
-            primes = [59,61,67,71,73,79,83,89,97
-                      ,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,179]
+            primes = [59,61,67,71,73,79,83,89,97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,179]
             #[3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97]
         else:
             primes = [101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,179
@@ -77,6 +76,15 @@ def generateKeys(p, q):
     d = modinverse(e,phi)
     return (e,d,n)
     
+##  Checks that provided RSA public, private, and mod values are valid.  
+def verify(e,d,n,runs):
+    for run in range(runs):
+        i = random.randrange(0,255)
+        c = pow(i,e) % n
+        m = pow(c,d) % n
+        if m != i:
+            return False
+    return True
 def gcd(a,b):
     c = a % b
     if c == 0:

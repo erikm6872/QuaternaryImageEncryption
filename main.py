@@ -18,10 +18,23 @@ def main():
     #   If the RSA public and private key values are above ~2000, the encryption and decryption  
     #   calculations can take a very long time, especially on large image files.
     #If both vars are set False, the possible p and q values are between 373 and 997.
-    smallprimes = True      #p and q between 101 and 367
+    smallprimes = False      #p and q between 101 and 367
     verysmallprimes = False #p and q between 59 and 179
     
-    numTestRuns = 500   #Number of loops to execute if `Run RSA test on current key` is selected 
+    
+    if smallprimes == True:
+        if verysmallprimes == True:
+            vruns = 100
+            numTestRuns = 1000   #Number of loops to execute if `Run RSA test on current key` is selected
+        else:
+            vruns = 50
+            numTestRuns = 500
+    else:
+        vruns = 5
+        numTestRuns = 50   #Number of loops to execute if `Run RSA test on current key` is selected 
+    
+    
+    
     
     if len(sys.argv) == 2:
         fname = sys.argv[1] 
@@ -36,9 +49,9 @@ def main():
                 rsaKey = rsa.RSA(smallprimes,verysmallprimes)
                 rsaGen = True
                 e,d,n = rsaKey.getKeys()
-                print 'public key:  ' + str(e)
+                print 'public key : ' + str(e)
                 print 'private key: ' + str(d)
-                print 'mod: ' + str(n)
+                print 'mod        : ' + str(n)
                 print 'Press enter to continue...'
                 raw_input("") #pause so that the keys can be seen
             elif op == 2:                                       #Import RSA key from file
@@ -46,22 +59,53 @@ def main():
                 keyfname = raw_input("Enter key filename: ")
                 keyFile = open(keyfname, "r")
                 keys = keyFile.read().split("/")
-                rsaKey.setKeys(int(keys[0]),int(keys[1]),int(keys[2]))
-                rsaGen = True
-                print "RSA key file \'" + keyfname + "\' successfully imported."
-                print 'public key:  ' + keys[0]
-                print 'private key: ' + keys[1]
-                print 'mod: ' + keys[2]
-                print 'Press enter to continue...'
-                raw_input("") #pause so that the keys can be seen
+                e = int(keys[0])
+                d = int(keys[1])
+                n = int(keys[2])
+                print "Verifying RSA key pairs..."
+                if rsa.verify(e,d,n,vruns) == True:
+                    rsaKey.setKeys(e,d,n)
+                    rsaGen = True
+                    print ''
+                    print "RSA key file \'" + keyfname + "\' successfully imported."
+                    print ''
+                    print 'public key : ' + keys[0]
+                    print 'private key: ' + keys[1]
+                    print 'mod        : ' + keys[2]
+                    print 'Press enter to continue...'
+                    raw_input("") #pause so that the keys can be seen
+                else:
+                    print ""
+                    print "***************************************************"
+                    print "ERROR: \'" + keyfname + "\' contains invalid RSA pairs."
+                    print ""
+                    print "Please check that key values are correct and enter"
+                    print "them again."
+                    print "***************************************************"
+                    print 'Press enter to continue...'
+                    raw_input("")
             elif op == 3:                                       #Enter existing RSA key
                 rsaKey = rsa.RSA(True,True)
                 eIn = int(raw_input("Enter public key : "))
                 dIn = int(raw_input("Enter private key: "))
                 nIn = int(raw_input("Enter mod value  : "))
-                rsaKey.setKeys(eIn,dIn,nIn)
-                rsaGen = True
-                print "RSA keys set"
+                print "Verifying RSA key pairs..."
+                if rsa.verify(eIn,dIn,nIn,vruns) == True:
+                    rsaKey.setKeys(eIn,dIn,nIn)
+                    rsaGen = True
+                    print "RSA keys set."
+                    print 'Press enter to continue...'
+                    raw_input("")
+                else:
+                    print ""
+                    print "***************************************************"
+                    print "ERROR: Key values provided are not valid RSA pairs."
+                    print ""
+                    print "Please check that key values are correct and enter"
+                    print "them again."
+                    print "***************************************************"
+                    print 'Press enter to continue...'
+                    raw_input("")
             elif op == 4:                                       #Save current key to file
                 if rsaGen == True:
                     keyfname = raw_input("Enter filename for key: ")
@@ -83,7 +127,23 @@ def main():
                     decryptedfname = decrypt(encFile,rsaKey)
             elif op == 7:                                               #Run RSA test on currently loaded keys
                 if rsaGen == True:
-                    testRSA(rsaKey, numTestRuns)
+                    print "Verifying current RSA key..."
+                    e,d,n = rsaKey.getKeys()
+                    if rsa.verify(e,d,n,vruns) == True:
+                        print "Done."
+                        print ''
+                        print "Testing quaternary encrypt/decrypt algorithm using current keys..." 
+                        testRSA(rsaKey, numTestRuns)
+                    else:
+                        print ""
+                        print "***************************************************"
+                        print "ERROR: Key values provided are not valid RSA pairs."
+                        print ""
+                        print "Please check that key values are correct and enter"
+                        print "them again."
+                        print "***************************************************"
+                        print 'Press enter to continue...'
+                        raw_input("")
                 else:
                     print "No RSA keys defined."
             elif op == 8:                                           #Quit
@@ -140,6 +200,7 @@ def testRSA(rsaKey, numRuns):
         print 'public key:  ' + str(e)
         print 'private key: ' + str(d)
         print 'mod: ' + str(n)
+    print ''
     raw_input("Press enter to continue...")
 def runAutoTest(fname):
     im = Image.open(fname)
