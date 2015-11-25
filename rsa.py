@@ -7,7 +7,7 @@ import random
 import quaternary
 
 class RSA(object):
-    def __init__(self,e,smallprimes,verysmallprimes):
+    def __init__(self,smallprimes,verysmallprimes):
         p, q = generatePrimes(smallprimes,verysmallprimes)
         #p = pq[0]
         #q = pq[1]
@@ -21,7 +21,10 @@ class RSA(object):
         #self.d = keys[1]
         #print 'e=' + str(self.e)
         #print 'd=' + str(self.d)
-    
+    def setKeys(self, e, d, n):
+        self.e = e
+        self.d = d
+        self.n = n
     def getKeys(self):
         return (self.e, self.d, self.n)
         
@@ -32,7 +35,16 @@ class RSA(object):
     def decryptBaseTen(self, c):
         return pow(c, self.d) % self.n
     
-    
+    def writeKeysToFile(self, fname):
+        outFile = open(fname, "wb")
+        outFile.write(str(self.e)+"/"+str(self.d)+"/"+str(self.n))
+        #outFile.write("Public Key : " + str(self.e))
+        #outFile.write("Private Key: " + str(self.d))
+        #outFile.write("Mod value  : " + str(self.n))
+        outFile.close()
+        print ''
+        print "Wrote RSA keys to " + fname
+        raw_input("Press enter to continue...")
     #This is the method that doesn't work. It always returns the same values as the input
     def encryptBaseFour(self, arr):
         dec = quaternary.toDecimal(arr)
@@ -53,7 +65,9 @@ def generatePrimes(smallprimes, verysmallprimes):
     
     if smallprimes == True:
         if verysmallprimes == True:
-            primes = [3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97]
+            primes = [3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97
+                      ,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,179]
+            #[3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97]
         else:
             primes = [101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,179
                      ,181,191,193,197,199,211,223,227,229,233,239,241,251,257,263,269

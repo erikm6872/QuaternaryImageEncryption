@@ -8,14 +8,19 @@ import quaternary   #quaternary.py
 from quaternary import BaseFour
 import rsa
 
-def decrypt(fname,rsaKey,imgwidth,imgheight):
+def decrypt(fname,rsaKey):#,imgwidth,imgheight):
     print 'Decrypting ' + fname + '...'
-    im = Image.new("RGB", (imgwidth, imgheight))
-    pix = im.load()
+    
     
     f = open(fname, "r")
-    fContents = f.read()
-    fPix = fContents.split(",")
+    fContents = f.read().split(".")
+    fPix = fContents[1].split(",")
+    fDimensions = fContents[0].split(",")
+    imgwidth = int(fDimensions[0])
+    imgheight = int(fDimensions[1])
+    
+    im = Image.new("RGB", (imgwidth, imgheight))
+    pix = im.load()
     
     for x in range(imgwidth):
         if x == imgwidth / 4:
@@ -39,10 +44,22 @@ def decrypt(fname,rsaKey,imgwidth,imgheight):
             g = quaternary.toDecimal(g_f)
             b = quaternary.toDecimal(b_f)
             
+            if r > 255:
+                print 'WARNING: r[' + str(x) + '][' + str(y) + ']=' + r
+            if g > 255:
+                print 'WARNING: g[' + str(x) + '][' + str(y) + ']=' + g
+            if b > 255:
+                print 'WARNING: b[' + str(x) + '][' + str(y) + ']=' + b
+            
             rgb_n = (r,g,b)
             #print rgb_n
             
             pix[x,y] = rgb_n
+            
+            
+            #if x > 0 and y > 0:
+            #    if ((pix[x,y][0] + pix[x,y][1] + pix[x,y][2]) - (pix[x-1,y-1][0] + pix[x-1,y-1][1] + pix[x-1,y-1][2])) > 250:
+            #        print 'Large color shift at ['+ str(x) + '][' + str(y) + ']'
     
     #for i in range(len(fPix)):
     #    rgb = fPix[i].split('/')

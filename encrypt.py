@@ -92,11 +92,12 @@ def encrypt(fname,rsaKey):
     if not os.path.exists(outputFolder):    #Create ./output/ directory if it doesn't exist already
         os.makedirs(outputFolder)
     outFile = outputFolder + fname + extension
-    writeToFile(outFile, A)
+    writeToFile(outFile, A, imgwidth, imgheight)
     #im.save(outputFolder + fname)   #Save to file
     print "Saved to " + outputFolder + fname + extension
     return outputFolder+fname+extension
     
-def writeToFile(filename, A):
+def writeToFile(filename, A,imgwidth,imgheight):
     outFile = open(filename, "wb")
-    outFile.write(str(A).strip('[]').replace("'", '').replace(' ', '').replace('[', '').replace(']',''))
+    outFile.write(str(imgwidth) + ","+str(imgheight)+"."+str(A).strip('[]').replace("'", '').replace(' ', '').replace('[', '').replace(']',''))
+    outFile.close()
