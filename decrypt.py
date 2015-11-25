@@ -11,7 +11,6 @@ import rsa
 def decrypt(fname,rsaKey):
     print 'Decrypting ' + fname + '...'
     
-    
     f = open(fname, "r")
     fContents = f.read().split(".")
     fPix = fContents[1].split(",")
@@ -30,7 +29,7 @@ def decrypt(fname,rsaKey):
         elif x == 3 * (imgwidth / 4):
             print '75%'
         row = fPix[(x*imgheight)-imgheight:x*imgheight]
-        for y in range(len(row))
+        for y in range(len(row)):
             rgb = row[y].split('/')
             r_i = rsaKey.decryptBaseTen(int(rgb[0]))
             g_i = rsaKey.decryptBaseTen(int(rgb[1]))
@@ -44,6 +43,8 @@ def decrypt(fname,rsaKey):
             g = quaternary.toDecimal(g_f)
             b = quaternary.toDecimal(b_f)
             
+            
+            #Print warnings if the decrypted RGB values are greater than 255
             if r > 255:
                 print 'WARNING: r[' + str(x) + '][' + str(y) + ']=' + r
             if g > 255:
@@ -55,5 +56,9 @@ def decrypt(fname,rsaKey):
             
             pix[x,y] = rgb_n
             
+    fNameComp = fname.split(".")
+    outfname = fNameComp[0]
+    exten = fNameComp[1]
     im.show()
+    im.save(outfname + "_OUTPUT" + exten)
     return fname
