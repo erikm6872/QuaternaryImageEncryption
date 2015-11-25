@@ -8,7 +8,7 @@ import quaternary   #quaternary.py
 from quaternary import BaseFour
 import rsa
 
-def decrypt(fname,rsaKey):#,imgwidth,imgheight):
+def decrypt(fname,rsaKey):
     print 'Decrypting ' + fname + '...'
     
     
@@ -30,7 +30,7 @@ def decrypt(fname,rsaKey):#,imgwidth,imgheight):
         elif x == 3 * (imgwidth / 4):
             print '75%'
         row = fPix[(x*imgheight)-imgheight:x*imgheight]
-        for y in range(len(row)):#imgheight):
+        for y in range(len(row))
             rgb = row[y].split('/')
             r_i = rsaKey.decryptBaseTen(int(rgb[0]))
             g_i = rsaKey.decryptBaseTen(int(rgb[1]))
@@ -52,31 +52,8 @@ def decrypt(fname,rsaKey):#,imgwidth,imgheight):
                 print 'WARNING: b[' + str(x) + '][' + str(y) + ']=' + b
             
             rgb_n = (r,g,b)
-            #print rgb_n
             
             pix[x,y] = rgb_n
             
-            
-            #if x > 0 and y > 0:
-            #    if ((pix[x,y][0] + pix[x,y][1] + pix[x,y][2]) - (pix[x-1,y-1][0] + pix[x-1,y-1][1] + pix[x-1,y-1][2])) > 250:
-            #        print 'Large color shift at ['+ str(x) + '][' + str(y) + ']'
-    
-    #for i in range(len(fPix)):
-    #    rgb = fPix[i].split('/')
-        
-    #    r_i = rsaKey.decryptBaseTen(rgb[0])
-    #    g_i = rsaKey.decryptBaseTen(rgb[1])
-    #    b_i = rsaKey.decryptBaseTen(rgb[2])
-    #    
-    #    r_f = quaternary.intValToBaseFour(r_i)
-    #    g_f = quaternary.intValToBaseFour(g_i)
-    #    b_f = quaternary.intValToBaseFour(b_i)
-        
-    #    r = quaternary.toDecimal(r_f)
-    #    g = quaternary.toDecimal(g_f)
-    #    b = quaternary.toDecimal(b_f)
-        
-    #    pix[x][y]
     im.show()
-    ##Todo: Implement decryption algorithm
     return fname

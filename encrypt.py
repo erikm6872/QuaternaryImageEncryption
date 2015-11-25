@@ -20,11 +20,6 @@ def encrypt(fname,rsaKey):
     imgsize = im.size
     imgwidth = imgsize[0]
     imgheight = imgsize[1]
-        
-    #   TODO: 
-    #   1. Convert RGB values to base 4
-    #   2. Encryption in base 4, possibly RSA
-    #   3. Convert back to base 10
     
     #   Step 2 given
     #   -------------
@@ -36,8 +31,6 @@ def encrypt(fname,rsaKey):
     #       ...
     #   n)  x_k = 2 <-Scrambled value
     
-    
-    #A = [[[] for x in range(imgheight)] for x in range(imgwidth)]
     A = [['' for x in range(imgheight)] for x in range(imgwidth)]
     
     print 'Encrypting ' + fname + '...'
@@ -57,43 +50,20 @@ def encrypt(fname,rsaKey):
             g = BaseFour(rgb[1])
             b = BaseFour(rgb[2])
             
-            #r.setVals(rsaKey.encryptBaseFour(r.getVals()))
-            #g.setVals(rsaKey.encryptBaseFour(g.getVals()))
-            #b.setVals(rsaKey.encryptBaseFour(b.getVals()))
-            
-            #print "r: Original=%d, RSA=%d" % (r.getIntVal(),0)# rsaKey.encryptBaseTen(r.getIntVal()))
-            #print "g: Original=%d, RSA=%d" % (g.getIntVal(),0)# rsaKey.encryptBaseTen(g.getIntVal()))
-            #print "b: Original=%d, RSA=%d" % (b.getIntVal(),0)# rsaKey.encryptBaseTen(b.getIntVal()))
-            #print ''
-            #rgbEncrypted = [rsaKey.encryptBaseTen(r.getIntVal()), rsaKey.encryptBaseTen(g.getIntVal()), rsaKey.encryptBaseTen(b.getIntVal())]
-            
             rd = rsaKey.encryptBaseTen(r.getIntVal())
             gd = rsaKey.encryptBaseTen(g.getIntVal())
             bd = rsaKey.encryptBaseTen(b.getIntVal())
-            #print rd
-            #print gd
-            #print bd
+
             rgb_s = '%d/%d/%d' % (rd, gd, bd)
             A[x][y] = rgb_s
-            
-            
-            #rgb_d = [rd, gd, bd]
-            #print '[' + str(x) + '][' + str(y) + '] / img[' + str(imgwidth) + '][' + str(imgheight) + '] / A[' + str(len(A)) + '][' + str(len(A[0])) + ']' 
-            #A[x][y] = rgb_d
-            #pix[x,y] = rgb_d
-            
-    #Open produced image in default program (Windows Photo Viewer, Preview, etc)
-    #Disabled for testing
-    #im.show()   
-    #print A
+
     #Save generated image to directory ./output/<filename>.jpg
     extension = '.enc'
     outputFolder = 'output/'
     if not os.path.exists(outputFolder):    #Create ./output/ directory if it doesn't exist already
         os.makedirs(outputFolder)
     outFile = outputFolder + fname + extension
-    writeToFile(outFile, A, imgwidth, imgheight)
-    #im.save(outputFolder + fname)   #Save to file
+    writeToFile(outFile, A, imgwidth, imgheight)    #Save to file
     print "Saved to " + outputFolder + fname + extension
     return outputFolder+fname+extension
     

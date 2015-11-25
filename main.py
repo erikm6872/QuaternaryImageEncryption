@@ -14,11 +14,11 @@ from PIL import Image
 
 def main():
     #Control variables
-    smallprimes = True
-    verysmallprimes = True #Enabling `verysmallprimes` can sometimes mess with the RSA algorithm
+    smallprimes = True      #Includes numbers 101-367
+    verysmallprimes = True  #Includes numbers 101-179
     
     runRSATest = False
-    numTestRuns = 1000
+    numTestRuns = 250
     
     
     if len(sys.argv) == 2:
@@ -32,13 +32,13 @@ def main():
         imgheight = imgsize[1]
     
     
-        rsaKey = rsa.RSA(smallprimes,verysmallprimes)    #eArg)
+        rsaKey = rsa.RSA(smallprimes,verysmallprimes)
         e,d,n = rsaKey.getKeys()
         print 'public key:  ' + str(e)
         print 'private key: ' + str(d)
         print 'mod: ' + str(n)
         print 'Press enter to continue...'
-        raw_input("") #pause so that the keys can be seen
+        raw_input("") #pause so that the keys can be seen by user
         print ''
     
     
@@ -95,22 +95,7 @@ def main():
             elif op == 7:
                 done = True
             else:
-                print "Invalid option selected."
-    
-    #Set filename if passed as an argument
-    #if len(sys.argv) == 3:
-    #    fname = sys.argv[1]
-    #    eArg = sys.argv[2]
-    
-    #If passing e as an arg is enabled, this should be an `elif` 
-    
-        #print "Usage: image.py <filename>" #<public key>"
-        #eArg = -1
-        #Get filename to open - sample.jpg hardcoded for testing purposes
-        #fname = raw_input("fname=")
-        #fname = 'sample.jpg' 
-    
-    
+                print "Invalid option selected."    
     
 def displayMenu():
     print "ImageEncryption"
@@ -137,16 +122,14 @@ def testRSA(rsaKey, numRuns):
         c = rsaKey.encryptBaseTen(mqi)
         mpi = rsaKey.decryptBaseTen(c)
         mp = quaternary.intValToBaseFour(mpi)
-        #mp = BaseFour(0)
-        #mp.setVals(quaternary.intValToBaseFour(mpi))
+
         mf = quaternary.toDecimal(mp)
         print 'Run  ' + str(i)
         print 'm:   ' + str(m)
         print 'mqi: ' + str(mqi)
         print 'c:   ' + str(c)
         print 'mpi: ' + str(mpi)
-        #print 'mp:  '
-        #print  mp
+
         print 'mf:  ' + str(mf)
         if m != mf or mqi != mpi:
             print 'ERROR: m=' + str(m) + ', mf=' + str(mf)

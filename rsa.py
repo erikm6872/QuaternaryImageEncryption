@@ -9,18 +9,9 @@ import quaternary
 class RSA(object):
     def __init__(self,smallprimes,verysmallprimes):
         p, q = generatePrimes(smallprimes,verysmallprimes)
-        #p = pq[0]
-        #q = pq[1]
         self.n = p * q
-        #if e == -1:
         self.e,self.d, self.n = generateKeys(p,q)
-        #else:
-        #    self.e = e
-        #    self.d = -1
-        #self.e = keys[0]
-        #self.d = keys[1]
-        #print 'e=' + str(self.e)
-        #print 'd=' + str(self.d)
+
     def setKeys(self, e, d, n):
         self.e = e
         self.d = d
@@ -38,30 +29,19 @@ class RSA(object):
     def writeKeysToFile(self, fname):
         outFile = open(fname, "wb")
         outFile.write(str(self.e)+"/"+str(self.d)+"/"+str(self.n))
-        #outFile.write("Public Key : " + str(self.e))
-        #outFile.write("Private Key: " + str(self.d))
-        #outFile.write("Mod value  : " + str(self.n))
         outFile.close()
         print ''
         print "Wrote RSA keys to " + fname
         raw_input("Press enter to continue...")
-    #This is the method that doesn't work. It always returns the same values as the input
+
+        
     def encryptBaseFour(self, arr):
         dec = quaternary.toDecimal(arr)
         c = pow(dec, self.e) % 255
         retArr = quaternary.fromDecimal(c)
         return retArr
-        #for i in arr:
-            #eVal = 0
-            #for j in range(i):
-                #eVal = eVal + j
-                #j = pow(j, self.e) % 4 #This always returns the same value
-            #i = quaternary.fromDecimal(eVal)   #Same with this
-        #return arr
 
 def generatePrimes(smallprimes, verysmallprimes):
-    #smallprimes = 0
-    #verysmallprimes = 0
     
     if smallprimes == True:
         if verysmallprimes == True:
@@ -82,7 +62,7 @@ def generatePrimes(smallprimes, verysmallprimes):
                    
                    
                    
-    print 'Generating prime numbers...'
+    #print 'Generating prime numbers...'
     p = primes[random.randrange(0, len(primes)-1)]
     q = primes[random.randrange(0, len(primes)-1)]
     while p == q:
