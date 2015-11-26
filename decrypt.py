@@ -33,9 +33,9 @@ def decrypt(fname,rsaKey):
         for y in range(len(row)):
             rgb = row[y].split('/')
             #print "(" + str(x) + "," + str(y) + ")="+rgb[0]+","+rgb[1]+","+rgb[2]
-            for i in rgb:
-                if i == '':
-                    i = '0'
+            #for i in rgb:
+            #    if i == '':
+            #        i = '0'
             r_i = rsaKey.decryptBaseTen(int("0x" + rgb[0],16))
             g_i = rsaKey.decryptBaseTen(int("0x" + rgb[1],16))
             b_i = rsaKey.decryptBaseTen(int("0x" + rgb[2],16))

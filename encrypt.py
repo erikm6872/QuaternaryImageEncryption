@@ -51,18 +51,18 @@ def encrypt(fname,rsaKey):
             gd = rsaKey.encryptBaseTen(g.getIntVal())
             bd = rsaKey.encryptBaseTen(b.getIntVal())
             
-            rhex = hex(rd).strip("0x").strip("L")
-            ghex = hex(gd).strip("0x").strip("L")
-            bhex = hex(bd).strip("0x").strip("L")
+            rhex = hex(rd).replace('0x', '').strip("L")
+            ghex = hex(gd).replace('0x', '').strip("L")
+            bhex = hex(bd).replace('0x', '').strip("L")
             
             
             
-            if rhex == '':
-                rhex = "0"
-            if ghex == '':
-                ghex = "0"
-            if bhex == '':
-                bhex = "0"
+            #if rhex == '':
+            #    rhex = "0"
+            #if ghex == '':
+            #    ghex = "0"
+            #if bhex == '':
+            #    bhex = "0"
                 
             
             #rgb_s = '%d/%d/%d' % (rd, gd, bd)
