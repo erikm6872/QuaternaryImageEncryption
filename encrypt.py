@@ -50,9 +50,24 @@ def encrypt(fname,rsaKey):
             rd = rsaKey.encryptBaseTen(r.getIntVal())
             gd = rsaKey.encryptBaseTen(g.getIntVal())
             bd = rsaKey.encryptBaseTen(b.getIntVal())
-
-            rgb_s = '%d/%d/%d' % (rd, gd, bd)
-            A[x][y] = rgb_s
+            
+            rhex = hex(rd).strip("0x").strip("L")
+            ghex = hex(gd).strip("0x").strip("L")
+            bhex = hex(bd).strip("0x").strip("L")
+            
+            
+            
+            if rhex == '':
+                rhex = "0"
+            if ghex == '':
+                ghex = "0"
+            if bhex == '':
+                bhex = "0"
+                
+            
+            #rgb_s = '%d/%d/%d' % (rd, gd, bd)
+            rgb_h = '%s/%s/%s' % (rhex,ghex,bhex)
+            A[x][y] = rgb_h
 
     #Save generated image to directory ./output/<filename>.jpg
     extension = '.enc'
