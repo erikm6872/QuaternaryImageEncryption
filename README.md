@@ -11,8 +11,8 @@ Python implementation of http://ijns.jalaxy.com.tw/contents/ijns-v17-n3/ijns-201
 sample_XXXpx.jpg by Rijksdienst voor het Cultureel Erfgoed [CC BY-SA 3.0 nl](http://creativecommons.org/licenses/by-sa/3.0/nl/deed.en), via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Overzicht_van_de_voorkant_-_Tungelroy_-_20421367_-_RCE.jpg)
 
 ## Usage
-`main.py` can be run with or without a filename passed as an argument. If no arguments are passed, the user is prompted to enter a filename to process.
+`main.py` can be run with or without a filename passed as an argument. If no arguments are passed, the user is presented with a menu of actions to perform.
 * `python main.py sample_321px.jpg`
 
 ## TODO
-* Fix decryption method in decrypt.py 
+* Comments
