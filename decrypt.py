@@ -9,7 +9,7 @@ from quaternary import BaseFour
 import rsa
 
 def decrypt(fname,rsaKey):
-    print 'Decrypting ' + fname + '...'
+    print("Decrypting " + fname + "..."),
     
     f = open(fname, "r")
     fContents = f.read().split(".")
@@ -21,13 +21,14 @@ def decrypt(fname,rsaKey):
     im = Image.new("RGB", (imgwidth, imgheight))
     pix = im.load()
     
+    error = False
+    
+    tenpercent = imgwidth / 10
+    
     for x in range(imgwidth):
-        if x == imgwidth / 4:
-            print '25%'
-        elif x == imgwidth / 2:
-            print '50%'
-        elif x == 3 * (imgwidth / 4):
-            print '75%'
+    
+        printPercentage(x, tenpercent)
+        
         row = fPix[(x*imgheight)-imgheight:x*imgheight]
         for y in range(len(row)):
             rgb = row[y].split('/')
@@ -44,13 +45,22 @@ def decrypt(fname,rsaKey):
             b = quaternary.toDecimal(b_f)
             
             
+            if r > 255 or g > 255 or b > 255:
+                print ''
+                print ''
+                print "****************ERROR*****************"
+                print "Decrypted RGB values greater than 255 "
+                print "RSA  key is probably incorrect.       "
+                print "**************************************"
+                print ''
+                return None
             #Print warnings if the decrypted RGB values are greater than 255
-            if r > 255:
-                print 'WARNING: r[' + str(x) + '][' + str(y) + ']=' + r
-            if g > 255:
-                print 'WARNING: g[' + str(x) + '][' + str(y) + ']=' + g
-            if b > 255:
-                print 'WARNING: b[' + str(x) + '][' + str(y) + ']=' + b
+            #if r > 255:
+            #    print 'WARNING: r[' + str(x) + '][' + str(y) + ']=' + str(r)
+            #if g > 255:
+            #    print 'WARNING: g[' + str(x) + '][' + str(y) + ']=' + str(g)
+            #if b > 255:
+            #    print 'WARNING: b[' + str(x) + '][' + str(y) + ']=' + str(b)
             
             rgb_n = (r,g,b)
             
@@ -61,4 +71,23 @@ def decrypt(fname,rsaKey):
     exten = fNameComp[1]
     im.show()
     im.save(outfname + "_OUTPUT." + exten)
-    return fname
+    return outfname + "_OUTPUT." + exten
+def printPercentage(x, tenpercent):
+    if x == tenpercent:
+            print("10%"),
+    elif x == tenpercent * 2:
+        print("20%"),
+    elif x == tenpercent * 3:
+        print("30%"),
+    elif x == tenpercent * 4:
+        print("40%"),
+    elif x == tenpercent * 5:
+        print("50%"),
+    elif x == tenpercent * 6:
+        print("60%"),
+    elif x == tenpercent * 7:
+        print("70%"),
+    elif x == tenpercent * 8:
+        print("80%"),
+    elif x == tenpercent * 9:
+        print("90%")

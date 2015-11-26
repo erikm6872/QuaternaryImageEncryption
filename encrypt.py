@@ -33,14 +33,11 @@ def encrypt(fname,rsaKey):
     
     A = [['' for x in range(imgheight)] for x in range(imgwidth)]
     
-    print 'Encrypting ' + fname + '...'
+    tenpercent = imgwidth / 10
+    
+    print("Encrypting " + fname + "..."),
     for x in range(0, imgwidth):
-        if x == imgwidth / 4:
-            print '25%'
-        elif x == imgwidth / 2:
-            print '50%'
-        elif x == 3 * (imgwidth / 4):
-            print '75%'
+        printPercentage(x, tenpercent)
         for y in range(0, imgheight):
            # print "[%d,%d]" % (x,y)
             rgb = pix[x,y]                          #Get array of RGB values - rgb[0] = red, etc
@@ -64,9 +61,28 @@ def encrypt(fname,rsaKey):
         os.makedirs(outputFolder)
     outFile = outputFolder + fname + extension
     writeToFile(outFile, A, imgwidth, imgheight)    #Save to file
-    print "Saved to " + outputFolder + fname + extension
+    #print "Saved to " + outputFolder + fname + extension
     return outputFolder+fname+extension
-    
+def printPercentage(x, tenpercent):
+    if x == tenpercent:
+            print("10%"),
+    elif x == tenpercent * 2:
+        print("20%"),
+    elif x == tenpercent * 3:
+        print("30%"),
+    elif x == tenpercent * 4:
+        print("40%"),
+    elif x == tenpercent * 5:
+        print("50%"),
+    elif x == tenpercent * 6:
+        print("60%"),
+    elif x == tenpercent * 7:
+        print("70%"),
+    elif x == tenpercent * 8:
+        print("80%"),
+    elif x == tenpercent * 9:
+        print("90%")
+
 def writeToFile(filename, A,imgwidth,imgheight):
     outFile = open(filename, "wb")
     outFile.write(str(imgwidth) + ","+str(imgheight)+"."+str(A).strip('[]').replace("'", '').replace(' ', '').replace('[', '').replace(']',''))
