@@ -54,13 +54,6 @@ def decrypt(fname,rsaKey):
                 print "**************************************"
                 print ''
                 return None
-            #Print warnings if the decrypted RGB values are greater than 255
-            #if r > 255:
-            #    print 'WARNING: r[' + str(x) + '][' + str(y) + ']=' + str(r)
-            #if g > 255:
-            #    print 'WARNING: g[' + str(x) + '][' + str(y) + ']=' + str(g)
-            #if b > 255:
-            #    print 'WARNING: b[' + str(x) + '][' + str(y) + ']=' + str(b)
             
             rgb_n = (r,g,b)
             

@@ -61,7 +61,6 @@ def encrypt(fname,rsaKey):
         os.makedirs(outputFolder)
     outFile = outputFolder + fname + extension
     writeToFile(outFile, A, imgwidth, imgheight)    #Save to file
-    #print "Saved to " + outputFolder + fname + extension
     return outputFolder+fname+extension
 def printPercentage(x, tenpercent):
     if x == tenpercent:
