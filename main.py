@@ -93,7 +93,7 @@ def main():
             elif op == 5:                                           #Encrypt image
                 if rsaGen == True:
                     imageFile = raw_input("Enter image filename: ")
-                    encfname = encrypt(imageFile,rsaKey)
+                    encfname = encrypt(imageFile,rsaKey,True,True)
                     print "Encrypted file saved to " + encfname
                     raw_input("Press enter to continue...")
                 else:
@@ -228,7 +228,7 @@ def runAutoTest(fname):
     raw_input("") #pause so that the keys can be seen by user
     print ''
     
-    encryptedfname = encrypt(fname,rsaKey)
+    encryptedfname = encrypt(fname,rsaKey,True,True)
     print '**************'
     decryptedfname = decrypt(encryptedfname,rsaKey,imgwidth,imgheight)
 def printInvalidRSA():
@@ -267,28 +267,29 @@ def rsaGenerationTest(smallprimes, verysmallprimes, numGens, sortBy):
     
     return gens
 def encryptTimingTest(fname, smallprimes, verysmallprimes, gens):
-    im = Image.open(fname)
-    pix = im.load()
+    #im = Image.open(fname)
+    #pix = im.load()
     
         #Get image dimensions
-    imgsize = im.size
-    imgwidth = imgsize[0]
-    imgheight = imgsize[1]
+    #imgsize = im.size
+    #imgwidth = imgsize[0]
+    #imgheight = imgsize[1]
     
     rsaKey = rsa.RSA(smallprimes,verysmallprimes)
     
     encryptTimes = []
     
     for i in range(len(gens)):
-    
+        rsaKey.setKeys(gens[i][0], gens[i][1], gens[i][2])
+        
         encryptTimes.append([])
         encryptTimes[i].append(gens[i][0])
         encryptTimes[i].append(gens[i][1])
         
         print str(i+1) + ") e = "+str(gens[i][0])+", d = "+str(gens[i][1])+", n = "+str(gens[i][2])
-        raw_input("start")
+        #raw_input("start")
         sTime = time.time()
-        encryptedfname = encrypt(fname,rsaKey)
+        encrypt(fname,rsaKey,False,False)
         eTime = time.time() - sTime
         print str(eTime) + " s"
         print '***'

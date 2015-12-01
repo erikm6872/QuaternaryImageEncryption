@@ -9,9 +9,10 @@ import os
 import quaternary   #quaternary.py
 from quaternary import BaseFour
 import rsa
+import time
 
-def encrypt(fname,rsaKey):
-
+def encrypt(fname,rsaKey,enableWrite,enableMessages):
+    sTime = time.time()
     #Open and load image file
     im = Image.open(fname)
     pix = im.load()
@@ -35,9 +36,11 @@ def encrypt(fname,rsaKey):
     
     tenpercent = imgwidth / 10
     
-    print("Encrypting " + fname + "..."),
+    if(enableMessages):
+        print("Encrypting " + fname + "..."),
     for x in range(0, imgwidth):
-        printPercentage(x, tenpercent)
+        if(enableMessages):
+            printPercentage(x, tenpercent)
         for y in range(0, imgheight):
            # print "[%d,%d]" % (x,y)
             rgb = pix[x,y]                          #Get array of RGB values - rgb[0] = red, etc
@@ -70,13 +73,20 @@ def encrypt(fname,rsaKey):
             A[x][y] = rgb_h
 
     #Save generated image to directory ./output/<filename>.jpg
+    
     extension = '.enc'
-    outputFolder = 'output/'
-    if not os.path.exists(outputFolder):    #Create ./output/ directory if it doesn't exist already
-        os.makedirs(outputFolder)
+    outputFolder = 'output/' 
     outFile = outputFolder + fname + extension
-    writeToFile(outFile, A, imgwidth, imgheight)    #Save to file
-    return outputFolder+fname+extension
+    
+    if(enableWrite):
+        if not os.path.exists(outputFolder):    #Create ./output/ directory if it doesn't exist already
+            os.makedirs(outputFolder)
+        writeToFile(outFile, A, imgwidth, imgheight)    #Save to file
+    if(enableMessages):
+        eTime = time.time() - sTime
+        print "Completed in " + str(eTime) + " s"
+    return outFile
+    
 def printPercentage(x, tenpercent):
     if x == tenpercent:
             print("10%"),
