@@ -132,16 +132,18 @@ def main():
                     else:
                         printInvalidRSA()
             elif op == 9:
-                tests = 100
+                tests = int(raw_input("Number of tests: "))#100
                 ind = 0
                 print 'Running ' + str(tests) + ' tests...'
                 keys = rsaGenerationTest(smallprimes, verysmallprimes, tests, ind)
-                encryptTimingTest("sample_160px.jpg", smallprimes, verysmallprimes, keys)
+                times = encryptTimingTest("sample_160px.jpg", smallprimes, verysmallprimes, keys)
                 #for i in keys:
                 #    print 'public key:  ' + str(i[0])
                 #    print 'private key: ' + str(i[1])
                 #    print 'mod: ' + str(i[2])
                 #    print ''
+                for i in times:
+                    print str(i[0]) + ", " + str(i[1]) + ", " + str(i[2])
                 raw_input("Press enter to continue...")
             elif op == 10:            #Quit
                 done = True
@@ -278,22 +280,24 @@ def encryptTimingTest(fname, smallprimes, verysmallprimes, gens):
     encryptTimes = []
     
     for i in range(len(gens)):
+    
         encryptTimes.append([])
         encryptTimes[i].append(gens[i][0])
+        encryptTimes[i].append(gens[i][1])
         
-        print gens[i][0]
-        
+        print str(i+1) + ") e = "+str(gens[i][0])+", d = "+str(gens[i][1])+", n = "+str(gens[i][2]) 
         sTime = time.time()
         encryptedfname = encrypt(fname,rsaKey)
         eTime = time.time() - sTime
-        print eTime
+        print str(eTime) + " s"
         print '***'
         encryptTimes[i].append(eTime)
         
+    return encryptTimes
         
-    for i in encryptTimes:
-        print 'e=' + i[0]
-        print 't=' + i[1]
-        print ''
+    #for i in encryptTimes:
+    #    print 'e=' + i[0]
+    #    print 't=' + i[1]
+    #    print ''
     #decryptedfname = decrypt(encryptedfname,rsaKey,imgwidth,imgheight)
 main()
