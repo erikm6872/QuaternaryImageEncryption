@@ -285,7 +285,8 @@ def encryptTimingTest(fname, smallprimes, verysmallprimes, gens):
         encryptTimes[i].append(gens[i][0])
         encryptTimes[i].append(gens[i][1])
         
-        print str(i+1) + ") e = "+str(gens[i][0])+", d = "+str(gens[i][1])+", n = "+str(gens[i][2]) 
+        print str(i+1) + ") e = "+str(gens[i][0])+", d = "+str(gens[i][1])+", n = "+str(gens[i][2])
+        raw_input("start")
         sTime = time.time()
         encryptedfname = encrypt(fname,rsaKey)
         eTime = time.time() - sTime
