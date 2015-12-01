@@ -12,6 +12,7 @@ from quaternary import BaseFour
 import quaternary
 from PIL import Image
 import os
+import time
 
 def main():
     #Control variables. Used for testing purposes. 
@@ -130,7 +131,19 @@ def main():
                         raw_input("Press enter to continue...")
                     else:
                         printInvalidRSA()
-            elif op == 9:                                           #Quit
+            elif op == 9:
+                tests = 100
+                ind = 0
+                print 'Running ' + str(tests) + ' tests...'
+                keys = rsaGenerationTest(smallprimes, verysmallprimes, tests, ind)
+                encryptTimingTest("sample_160px.jpg", smallprimes, verysmallprimes, keys)
+                #for i in keys:
+                #    print 'public key:  ' + str(i[0])
+                #    print 'private key: ' + str(i[1])
+                #    print 'mod: ' + str(i[2])
+                #    print ''
+                raw_input("Press enter to continue...")
+            elif op == 10:            #Quit
                 done = True
             else:                                           #Input is not a valid option (1-8)
                 print "Invalid option selected."    
@@ -145,19 +158,20 @@ def displayMenu(smallprimes, verysmallprimes, vruns, numTestRuns):
     print "numTestRuns=" + str(numTestRuns)
     print ""
     print "***********RSA Options************"
-    print "1. Generate new RSA key"
-    print "2. Import RSA key from file"
-    print "3. Enter existing RSA key manually"
-    print "4. Write current RSA keys to file"
+    print "1.  Generate new RSA key"
+    print "2.  Import RSA key from file"
+    print "3.  Enter existing RSA key manually"
+    print "4.  Write current RSA keys to file"
     print ""
     print "**********Image Options***********"
-    print "5. Encrypt Image to .enc file"
-    print "6. Decrypt .enc file to image"
+    print "5.  Encrypt Image to .enc file"
+    print "6.  Decrypt .enc file to image"
     print ""
     print "**********Other Options***********"
-    print "7. Test algorithm on current key"
-    print "8. Verify current RSA key"
-    print "9. Exit"
+    print "7.  Test algorithm on current key"
+    print "8.  Verify current RSA key"
+    print "9.  RSA Generation test"
+    print "10. Exit"
     print ""
     return raw_input(">")
 def testRSA(rsaKey, numRuns):
@@ -224,4 +238,62 @@ def printInvalidRSA():
     print "them again."
     print "***************************************************"
     raw_input("Press enter to continue...")
+def rsaGenerationTest(smallprimes, verysmallprimes, numGens, sortBy):
+    gens = []
+    for i in range(numGens):
+        gens.append([])
+        e,d,n = rsa.RSA(smallprimes,verysmallprimes).getKeys()
+        gens[i].append(e)
+        gens[i].append(d)
+        gens[i].append(n)
+        
+        #print 'public key:  ' + str(e)
+        #print 'private key: ' + str(d)
+        #print 'mod: ' + str(n)
+        #print ''
+    #print ""
+    #print "sorted"
+    #print ""
+    
+    gens.sort(key=lambda x: x[sortBy])
+    
+    #for i in gens:
+    #    print 'public key:  ' + str(i[0])
+    #    print 'private key: ' + str(i[1])
+    #    print 'mod: ' + str(i[2])
+    #    print ''
+    
+    return gens
+def encryptTimingTest(fname, smallprimes, verysmallprimes, gens):
+    im = Image.open(fname)
+    pix = im.load()
+    
+        #Get image dimensions
+    imgsize = im.size
+    imgwidth = imgsize[0]
+    imgheight = imgsize[1]
+    
+    rsaKey = rsa.RSA(smallprimes,verysmallprimes)
+    
+    encryptTimes = []
+    
+    for i in range(len(gens)):
+        encryptTimes.append([])
+        encryptTimes[i].append(gens[i][0])
+        
+        print gens[i][0]
+        
+        sTime = time.time()
+        encryptedfname = encrypt(fname,rsaKey)
+        eTime = time.time() - sTime
+        print eTime
+        print '***'
+        encryptTimes[i].append(eTime)
+        
+        
+    for i in encryptTimes:
+        print 'e=' + i[0]
+        print 't=' + i[1]
+        print ''
+    #decryptedfname = decrypt(encryptedfname,rsaKey,imgwidth,imgheight)
 main()
