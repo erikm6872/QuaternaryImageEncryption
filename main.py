@@ -20,7 +20,7 @@ def main():
     #   calculations can take a very long time, especially on large image files.
     #If both vars are set False, the possible p and q values are between 373 and 997.
     smallprimes = True      #p and q between 101 and 367
-    verysmallprimes = False  #p and q between 59 and 179
+    verysmallprimes = True  #p and q between 59 and 179
     
     #rsaTest() and rsa.verify() variables
     #   Both of these methods can take a very long time if smallprimes and verysmallprimes are set to False.
@@ -132,12 +132,14 @@ def main():
                     else:
                         printInvalidRSA()
             elif op == 9:
-                tests = int(raw_input("Number of tests: "))#100
+                tests = 20#int(raw_input("Number of tests: "))#100
                 ind = 0
                 #print 'Running ' + str(tests) + ' tests...'
                 print ''
                 keys = rsaGenerationTest(smallprimes, verysmallprimes, tests, ind)
-                encryptTimes = encryptTimingTest("sample_401px.jpg", smallprimes, verysmallprimes, keys)
+                keys = keys + rsaGenerationTest(True, False, tests/2, ind)
+                keys = keys + rsaGenerationTest(False,False,tests/5, ind)
+                encryptTimes = encryptTimingTest("sample_160px.jpg", smallprimes, verysmallprimes, keys)
                 #decryptTimes = decryptTimingTest("output/sample_160px")
                 
                 #for i in keys:
@@ -175,7 +177,7 @@ def displayMenu(smallprimes, verysmallprimes, vruns, numTestRuns):
     print "**********Other Options***********"
     print "7.  Test algorithm on current key"
     print "8.  Verify current RSA key"
-    print "9.  RSA Generation test"
+    print "9.  Encryption Runtime Test"
     print "10. Exit"
     print ""
     return raw_input(">")
@@ -282,7 +284,7 @@ def encryptTimingTest(fname, smallprimes, verysmallprimes, gens):
         encryptTimes[i].append(gens[i][0])
         encryptTimes[i].append(gens[i][1])
         
-        print("Run " + str(i+1) + "/" + str(len(gens)+1) + ": e = "+str(gens[i][0])+", d = "+str(gens[i][1])+", n = "+str(gens[i][2]))
+        print("Run " + str(i+1) + "/" + str(len(gens)) + ": e = "+str(gens[i][0])+", d = "+str(gens[i][1])+", n = "+str(gens[i][2]))
         
         sTime = time.time()
         encrypt(fname,rsaKey,False,False)
@@ -292,7 +294,7 @@ def encryptTimingTest(fname, smallprimes, verysmallprimes, gens):
         print ''
         
         encryptTimes[i].append(eTime)
-        
+    
     return encryptTimes
     
 def decryptTimingTest(fname, smallprimes, verysmallprimes, gens):
