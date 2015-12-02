@@ -20,7 +20,7 @@ def main():
     #   calculations can take a very long time, especially on large image files.
     #If both vars are set False, the possible p and q values are between 373 and 997.
     smallprimes = True      #p and q between 101 and 367
-    verysmallprimes = True  #p and q between 59 and 179
+    verysmallprimes = False  #p and q between 59 and 179
     
     #rsaTest() and rsa.verify() variables
     #   Both of these methods can take a very long time if smallprimes and verysmallprimes are set to False.
@@ -101,7 +101,7 @@ def main():
             elif op == 6:                                           #Decrypt file
                 if rsaGen == True:
                     encFile = raw_input("Enter encrypted file name: ")
-                    decfname = decrypt(encFile,rsaKey)
+                    decfname = decrypt(encFile,rsaKey,True,True)
                     if decfname != None:
                         print "Decrypted image saved to " + decfname
                         raw_input("Press enter to continue...")
@@ -134,15 +134,18 @@ def main():
             elif op == 9:
                 tests = int(raw_input("Number of tests: "))#100
                 ind = 0
-                print 'Running ' + str(tests) + ' tests...'
+                #print 'Running ' + str(tests) + ' tests...'
+                print ''
                 keys = rsaGenerationTest(smallprimes, verysmallprimes, tests, ind)
-                times = encryptTimingTest("sample_160px.jpg", smallprimes, verysmallprimes, keys)
+                encryptTimes = encryptTimingTest("sample_401px.jpg", smallprimes, verysmallprimes, keys)
+                #decryptTimes = decryptTimingTest("output/sample_160px")
+                
                 #for i in keys:
                 #    print 'public key:  ' + str(i[0])
                 #    print 'private key: ' + str(i[1])
                 #    print 'mod: ' + str(i[2])
                 #    print ''
-                for i in times:
+                for i in encryptTimes:
                     print str(i[0]) + ", " + str(i[1]) + ", " + str(i[2])
                 raw_input("Press enter to continue...")
             elif op == 10:            #Quit
@@ -230,7 +233,7 @@ def runAutoTest(fname):
     
     encryptedfname = encrypt(fname,rsaKey,True,True)
     print '**************'
-    decryptedfname = decrypt(encryptedfname,rsaKey,imgwidth,imgheight)
+    #decryptedfname = decrypt(encryptedfname,rsaKey,imgwidth,imgheight)
 def printInvalidRSA():
     print ""
     print "***************************************************"
@@ -267,13 +270,6 @@ def rsaGenerationTest(smallprimes, verysmallprimes, numGens, sortBy):
     
     return gens
 def encryptTimingTest(fname, smallprimes, verysmallprimes, gens):
-    #im = Image.open(fname)
-    #pix = im.load()
-    
-        #Get image dimensions
-    #imgsize = im.size
-    #imgwidth = imgsize[0]
-    #imgheight = imgsize[1]
     
     rsaKey = rsa.RSA(smallprimes,verysmallprimes)
     
@@ -286,20 +282,43 @@ def encryptTimingTest(fname, smallprimes, verysmallprimes, gens):
         encryptTimes[i].append(gens[i][0])
         encryptTimes[i].append(gens[i][1])
         
-        print str(i+1) + ") e = "+str(gens[i][0])+", d = "+str(gens[i][1])+", n = "+str(gens[i][2])
-        #raw_input("start")
+        print("Run " + str(i+1) + "/" + str(len(gens)+1) + ": e = "+str(gens[i][0])+", d = "+str(gens[i][1])+", n = "+str(gens[i][2]))
+        
         sTime = time.time()
         encrypt(fname,rsaKey,False,False)
         eTime = time.time() - sTime
-        print str(eTime) + " s"
-        print '***'
+        
+        print "Elapsed time = " + str(eTime) + " s"
+        print ''
+        
         encryptTimes[i].append(eTime)
         
     return encryptTimes
+    
+def decryptTimingTest(fname, smallprimes, verysmallprimes, gens):
+    
+    rsaKey = rsa.RSA(smallprimes,verysmallprimes)
+    
+    decryptTimes = []
+    
+    for i in range(len(gens)):
+        rsaKey.setKeys(gens[i][0], gens[i][1], gens[i][2])
         
-    #for i in encryptTimes:
-    #    print 'e=' + i[0]
-    #    print 't=' + i[1]
-    #    print ''
-    #decryptedfname = decrypt(encryptedfname,rsaKey,imgwidth,imgheight)
+        decryptTimes.append([])
+        decryptTimes[i].append(gens[i][0])
+        decryptTimes[i].append(gens[i][1])
+        
+        print(str(i+1) + ") e = "+str(gens[i][0])+", d = "+str(gens[i][1])+", n = "+str(gens[i][2]))
+        #raw_input("start")
+        
+        sTime = time.time()
+        decrypt(fname,rsaKey,False,False)
+        eTime = time.time() - sTime
+        
+        print "Elapsed time = " + str(eTime) + " s"
+        print ''
+        
+        decryptTimes[i].append(eTime)
+        
+    return decryptTimes
 main()

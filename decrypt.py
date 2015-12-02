@@ -8,8 +8,9 @@ import quaternary   #quaternary.py
 from quaternary import BaseFour
 import rsa
 
-def decrypt(fname,rsaKey):
-    print("Decrypting " + fname + "..."),
+def decrypt(fname,rsaKey,enableWrite,enableMessages):
+    if(enableMessages):
+        print("Decrypting " + fname + "..."),
     
     f = open(fname, "r")
     fContents = f.read().split(".")
@@ -26,8 +27,9 @@ def decrypt(fname,rsaKey):
     tenpercent = imgwidth / 10
     
     for x in range(imgwidth):
-    
-        printPercentage(x, tenpercent)
+        
+        if(enableMessages):
+            printPercentage(x, tenpercent)
         
         row = fPix[(x*imgheight)-imgheight:x*imgheight]
         for y in range(len(row)):
@@ -66,8 +68,10 @@ def decrypt(fname,rsaKey):
     fNameComp = fname.split(".")
     outfname = fNameComp[0]
     exten = fNameComp[1]
+    
     im.show()
-    im.save(outfname + "_OUTPUT." + exten)
+    if(enableWrite):
+        im.save(outfname + "_OUTPUT." + exten)
     return outfname + "_OUTPUT." + exten
 def printPercentage(x, tenpercent):
     if x == tenpercent:
