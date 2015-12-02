@@ -136,10 +136,14 @@ def main():
                 ind = 0
                 #print 'Running ' + str(tests) + ' tests...'
                 print ''
+                
                 keys = rsaGenerationTest(smallprimes, verysmallprimes, tests, ind)
                 keys = keys + rsaGenerationTest(True, False, tests/2, ind)
                 keys = keys + rsaGenerationTest(False,False,tests/5, ind)
+                keys.sort(key=lambda x: x[0])
+                
                 encryptTimes = encryptTimingTest("sample_160px.jpg", smallprimes, verysmallprimes, keys)
+                
                 #decryptTimes = decryptTimingTest("output/sample_160px")
                 
                 #for i in keys:
